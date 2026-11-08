@@ -1,0 +1,25 @@
+# Normalize text in Git and use LF across development platforms.
+* text=auto eol=lf
+
+# Windows command scripts require CRLF when checked out.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Keep common binary assets free of text conversion and text diffs.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.7z binary
+*.dll binary
+*.exe binary
+*.pdb binary
