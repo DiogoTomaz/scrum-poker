@@ -1,0 +1,21 @@
+name: scrum-poker
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/api/Dockerfile
+    environment:
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ASPNETCORE_ENVIRONMENT: Production
+    expose:
+      - "8080"
+
+  web:
+    build:
+      context: ./src/web
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      api:
+        condition: service_healthy

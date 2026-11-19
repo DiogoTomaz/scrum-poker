@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  max-width: 44rem;
+  margin: 10vh auto;
+  padding: 2rem;
+}
+
+h1 {
+  margin-bottom: 0.5rem;
+  font-size: clamp(2rem, 6vw, 3rem);
+}
+
+section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+button {
+  padding: 0.65rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+}

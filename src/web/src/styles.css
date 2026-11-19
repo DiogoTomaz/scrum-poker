@@ -1,0 +1,15 @@
+html {
+  color-scheme: light;
+  font-family: system-ui, sans-serif;
+  color: #172033;
+  background: #f5f7fb;
+}
+
+body {
+  margin: 0;
+  line-height: 1.6;
+}
+
+* {
+  box-sizing: border-box;
+}

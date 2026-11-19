@@ -1,15 +1,18 @@
 # Scrum Poker architecture specification
 
 Status: Approved identity, reconnect, single-process concurrency, and SQLite
-decisions, with implementation contracts specified here. Repository organization,
-exact versions, and delivery settings remain proposed where noted. Implementation
-is not authorized. See [ADRs](../adr/README.md).
+decisions, with implementation contracts specified here. Bootstrap organization and
+tool choices are approved; production delivery settings remain open. Implementation
+is authorized for SETUP-001 only; business behavior is deferred. Bootstrap decisions
+are recorded in [ADR-0006](../adr/0006-bootstrap-tooling-and-local-runtime.md).
+See [ADRs](../adr/README.md).
 
 ## Structure and stack
 
-Planned stack: Angular 20+ standalone components and signals, .NET 10 Web API,
+Planned stack: Angular 21 standalone components and signals, .NET 10 Web API,
 SignalR, EF Core/SQLite, Docker Compose, GitHub Actions; Terraform later.
-Proposed structure is a monorepo and feature-organized modular monolith:
+Approved bootstrap structure is a monorepo and feature-organized modular monolith
+(future directories are created only when needed):
 
 ```text
 AGENTS.md
@@ -24,8 +27,8 @@ docs/adr/                    # decisions and consequences
 infra/                      # deployment configuration later
 ```
 
-Create directories only when useful. Select/pin Angular, compatible Node, .NET SDK,
-EF Core, and test tools in SETUP-001. The initial inspection is retained in
+Create directories only when useful. Bootstrap version pins are recorded in project
+configuration and the README; EF Core is deferred. The initial inspection is retained in
 [the historical proposal](../initial-proposal.md#inspection-on-2026-11-08); recheck
 the environment before setup. No extra framework, broker, or distributed lock is needed.
 
