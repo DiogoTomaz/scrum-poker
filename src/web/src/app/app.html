@@ -1,0 +1,25 @@
+<main>
+  <h1>Scrum Poker</h1>
+  <p>Collaborative Planning Poker for Agile teams.</p>
+  <p>The application foundation is ready. Planning Poker features are coming next.</p>
+
+  <section aria-labelledby="connection-heading">
+    <h2 id="connection-heading">Service connection</h2>
+    <p role="status">
+      @switch (status()) {
+        @case ('checking') {
+          Checking service connection…
+        }
+        @case ('available') {
+          Service available.
+        }
+        @case ('unavailable') {
+          Service unavailable. Start the API and try again.
+        }
+      }
+    </p>
+    <button type="button" [disabled]="status() === 'checking'" (click)="checkHealth()">
+      Check again
+    </button>
+  </section>
+</main>

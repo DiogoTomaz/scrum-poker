@@ -1,0 +1,10 @@
+node_modules
+dist
+.angular
+.vscode
+.env
+.env.*
+.envrc
+.secrets
+*.log
+coverage

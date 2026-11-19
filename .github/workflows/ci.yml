@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: src/web
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: src/web/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm test # package script explicitly sets --watch=false
+      - run: npm run build
+
+  backend:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_NOLOGO: "1"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          global-json-file: global.json
+      - run: dotnet restore ScrumPoker.slnx --locked-mode --configfile NuGet.Config
+      - run: dotnet format ScrumPoker.slnx --verify-no-changes --no-restore
+      - run: dotnet build ScrumPoker.slnx --configuration Release --no-restore
+      - run: dotnet test ScrumPoker.slnx --configuration Release --no-build --no-restore
+
+  containers:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Validate Compose
+        run: docker compose config --quiet
+      - name: Build and start healthy services
+        run: docker compose up --build --detach --wait --wait-timeout 120
+      - name: Check runtime probe tools and frontend-to-backend proxy
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker compose exec -T api sh -c 'command -v wget'
+          docker compose exec -T web sh -c 'command -v wget'
+          curl --fail --silent --show-error --max-time 10 http://127.0.0.1:8080/ | grep -q '<app-root'
+          response=$(curl --fail --silent --show-error --max-time 10 http://127.0.0.1:8080/api/health)
+          test "$response" = "Healthy"
+          # Unknown API routes must reach the API, never the SPA fallback.
+          status=$(curl --silent --show-error --max-time 10 --output /dev/null --write-out '%{http_code}' http://127.0.0.1:8080/api/not-found)
+          test "$status" = "404"
+      - name: Container logs
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Stop services
+        if: always()
+        run: docker compose down --remove-orphans

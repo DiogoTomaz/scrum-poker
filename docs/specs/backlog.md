@@ -1,6 +1,8 @@
 # Scrum Poker backlog and delivery workflow
 
-Status: documentation baseline; no implementation authorized. Accepted identity and
+Status: approved documentation baseline; SETUP-001 implementation authorized on
+2026-11-18, including Docker/Compose. Product stories remain unimplemented.
+Accepted identity and
 concurrency decisions constrain every story. Remaining product details are identified
 in [product](product.md); implementation contracts are in [architecture](architecture.md).
 
@@ -33,8 +35,10 @@ staging and production rather than rebuilding it. No cloud resources are needed 
 As a contributor, I can build, run, and verify the client and API reproducibly so
 that each product story starts from a reliable foundation.
 
-Dependencies: explicit implementation authorization; approval of repository structure,
-compatible Angular/Node versions, .NET/EF Core pins, package manager, and test tooling.
+Dependencies: satisfied by the approved bootstrap plan on 2026-11-18: monorepo,
+Angular 21, Node 22.17.1/npm 10.9.2, .NET 10, Vitest, Angular ESLint, and xUnit with
+WebApplicationFactory. Exact pins are in project configuration and the README.
+EF Core, database initialization, SignalR hubs, and domain logic are deferred.
 
 Acceptance criteria:
 
@@ -49,8 +53,11 @@ Acceptance criteria:
 - A GitHub Actions workflow defines applicable build/check/test jobs using pinned
   tooling and least privilege. It may be authored locally; no push, remote CI run,
   branch protection change, or PR creation without authorization.
-- Include PR/story templates and document the review workflow. Containerization
-  can be a subsequent enabling story; no Terraform or deployment in this story.
+- Include PR/story templates and document the review workflow.
+- Provide multi-stage Dockerfiles and local Compose with Nginx proxying `/api` to
+  the backend. Pin image versions, use probe utilities present in runtime images,
+  and include a CI smoke check of `/api/health` through Nginx. No Terraform or
+  deployment in this story. Record unavailable Docker validation honestly.
 
 Verification: run documented checks locally and inspect workflow configuration.
 Do not claim remote CI is green until it has actually run.
@@ -160,13 +167,13 @@ calculated consensus.
 
 ## Later work and unresolved decisions
 
-After the five stories: containerization, room expiry/retention and operational
+After the five stories: room expiry/retention and operational
 limits, backup/restore and deployment migrations, host recovery/transfer if needed,
 hosting selection, deployment automation, and Terraform. Basic reconnect is already
 in SP-001/SP-002; it is not deferred.
 
-Before SETUP-001: select versions/tooling, confirm repository layout and review policy,
-and authorize scaffolding/dependency installation. Before each affected product story:
+SETUP-001 tooling/layout/scaffolding approval is recorded in
+[ADR-0006](../adr/0006-bootstrap-tooling-and-local-runtime.md). Before each affected product story:
 finalize endpoint/DTO schemas, idempotency, input limits and listed product rules.
 Choose lock wait, notification send, SQLite busy, and grace settings with tests;
 they are configurable implementation details, not new product behavior.

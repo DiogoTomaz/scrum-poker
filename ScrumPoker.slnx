@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/api/">
+    <Project Path="src/api/ScrumPoker.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/api/">
+    <Project Path="tests/api/ScrumPoker.Api.IntegrationTests/ScrumPoker.Api.IntegrationTests.csproj" />
+  </Folder>
+</Solution>

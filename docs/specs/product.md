@@ -2,7 +2,8 @@
 
 Status: MVP direction approved on 2026-11-08, with contract clarifications recorded
 below. Exact limits and unresolved choices are listed at the end. Implementation
-is not yet authorized. See [architecture](architecture.md), [backlog](backlog.md),
+of product stories is not yet authorized; SETUP-001 bootstrap is authorized separately.
+See [architecture](architecture.md), [backlog](backlog.md),
 and [ADRs](../adr/README.md). These replace the initial proposal.
 
 ## Purpose and scope

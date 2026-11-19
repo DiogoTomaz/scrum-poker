@@ -2,14 +2,16 @@
 
 ## Current phase and authority
 
-The initial specifications have been approved as the documentation baseline.
-Implementation has not started. Git publication of this documentation-only baseline
-is authorized in scope. For the current preparation task, the user will perform the
-initial commit manually: do not stage, commit, push, create a PR, or create remote
-resources. Publication approval does not override these task-specific limits.
+The documentation baseline is approved and published. SETUP-001 bootstrap is now
+authorized on `chore/setup-001-bootstrap`: Angular 21, .NET 10 Minimal API, health
+endpoint, tests, lint/format tooling, Docker/Compose, CI, and startup documentation.
+Project generation and project dependency installation are authorized for that scope.
+Business features, EF Core/SQLite initialization, SignalR hubs, domain logic, and
+system-wide tooling changes are deferred and require separate authorization.
 
-Application scaffolding and dependency installation require separate authorization.
-Do not implement application code, provision infrastructure, or deploy without it.
+Leave changes uncommitted for user review. Do not stage, commit, push, create or
+merge a PR, create remote resources, provision infrastructure, or deploy services.
+Local development startup and container smoke validation are authorized.
 The user's explicit instructions take precedence. Do not treat a proposal as approval.
 
 Read this file, relevant specifications, and accepted architecture decisions before
@@ -33,11 +35,12 @@ and superseded by those documents. Approved decisions do not authorize implement
 Scrum Poker is collaborative Planning Poker for Agile teams. Learning a professional
 AI-assisted development workflow is part of the product objective.
 
-Planned stack: Angular 20+ with standalone components and signals; .NET 10 Web API;
+Planned stack: Angular 21 with standalone components and signals; .NET 10 Web API;
 SignalR; EF Core with SQLite; Docker Compose; GitHub Actions; Terraform later.
-Exact frontend and tool versions remain pending. Verify official compatibility
-before choosing versions. Pin approved SDK/runtime/package versions and commit
-lockfiles when application setup is authorized. Do not use floating latest tags.
+Use the pinned versions recorded in project configuration and the README. Keep
+package lockfiles current, use non-watch tests in CI, and configure Angular ESLint
+explicitly. Verify compatibility when updating versions. Do not use floating latest
+Docker tags. Health probes must use tools actually present in their runtime images.
 
 ## Planned organization
 

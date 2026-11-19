@@ -110,3 +110,6 @@ publish/
 tmp/
 temp/
 *.log
+
+# Workspace-local tool caches
+.cache/
